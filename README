@@ -1,0 +1,4 @@
+Here's a short description I need to fill in
+
+index.html -- Wrapper for running the javascript and testing its functionality
+libs/blsapi.js -- The actual calls to the API
