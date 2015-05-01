@@ -59,7 +59,7 @@ function makeRequest(seriesID, paramPairs){
 	
 	//Step 3 -- Cache the Returned value
 	//Step 4 -- Return the request
-	return result;
+	//return result;
 }
 
 //Code to submit a BLS formatted request
@@ -67,11 +67,8 @@ function blsRequest(seriesReq, method){
 	var reqResp = null;
 	var httpRequest = null;
 	
-	if(window.XMLHttpRequest){
-		httpRequest = new XMLHttpRequest();
-	}else{
-		httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-	}
+	//Cribbing from <>'s CORS Request Example
+	httpRequest = openSession(seriesReq,method);
 	
 	if(!httpRequest){
 		console.log("Stopping operation.  Unable to create new XMLHttpRequest.");
@@ -94,6 +91,21 @@ function blsRequest(seriesReq, method){
 		console.log('This is a todo.  How we get here?');
 	}
 	
+}
+
+function openSession(seriesReq, method){
+	var xDomReq = new XMLHttpRequest();
+	
+	if("withCredentials" in xDomReq){
+		xDomReq.open(method, blsURL + seriesReq);
+	}else if (typeof XDomainRequest != "undefined"){
+		xDomReq = new XDomainRequest();
+		xDomReq.open(method, blsURL + seriesReq);
+	}else{
+		xDomReq = null;
+	}
+	
+	return xDomReq;
 }
 
 //Function to make a local copy of the most recent request.
